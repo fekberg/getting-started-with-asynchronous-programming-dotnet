@@ -1,0 +1,49 @@
+﻿<Window x:Class="StockAnalyzer.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockAnalyzer.Windows"
+        mc:Ignorable="d"
+        Title="Stock Analyzer" Height="450" Width="800">
+
+    <DockPanel>
+        <Menu Height="20" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem x:Name="Close" Header="_Close" Click="Close_OnClick"/>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="StocksStatus">No data loaded</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <GroupBox Padding="5">
+
+                <GroupBox.Header>Search for ticker</GroupBox.Header>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Padding="3" Margin="0 0 20 0" x:Name="Ticker"></TextBox>
+                    <Button x:Name="Search" Grid.Column="1" Click="Search_Click">Search</Button>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Padding="5">
+
+                <GroupBox.Header>Stock Data </GroupBox.Header>
+
+                <DataGrid x:Name="Stocks"></DataGrid>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+
+
+</Window>
