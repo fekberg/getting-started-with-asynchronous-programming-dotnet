@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StockAnalyzer.Windows"
         mc:Ignorable="d"
-        Title="Stock Analyzer" Height="450" Width="800">
+        Title="Getting Started with Asynchronous Programming in .NET" Height="450" Width="800">
 
     <DockPanel>
         <Menu Height="20" DockPanel.Dock="Top">
@@ -15,7 +15,15 @@
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock x:Name="StocksStatus">No data loaded</TextBlock>
+                <TextBlock Padding="5" x:Name="StocksStatus">No data loaded</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <ProgressBar x:Name="StockProgress" Width="200" Height="15" Visibility="Hidden"></ProgressBar>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Padding="5">
+                    Data provided for free by <Hyperlink NavigateUri="https://iextrading.com/developer/" RequestNavigate="Hyperlink_OnRequestNavigate">IEX</Hyperlink>. View <Hyperlink NavigateUri="https://iextrading.com/api-exhibit-a/" RequestNavigate="Hyperlink_OnRequestNavigate">IEX’s Terms of Use.</Hyperlink>
+                </TextBlock>
             </StatusBarItem>
         </StatusBar>
         <Grid Margin="5">
@@ -36,14 +44,23 @@
                     <Button x:Name="Search" Grid.Column="1" Click="Search_Click">Search</Button>
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Row="1" Padding="5">
-
-                <GroupBox.Header>Stock Data </GroupBox.Header>
-
-                <DataGrid x:Name="Stocks"></DataGrid>
-            </GroupBox>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Padding="5">
+                    <GroupBox.Header>Stock Data</GroupBox.Header>
+                    <DataGrid x:Name="Stocks"></DataGrid>
+                </GroupBox>
+                <GroupBox Padding="5" Grid.Column="1">
+                    <GroupBox.Header>Notes</GroupBox.Header>
+                    <TextBox x:Name="Notes" Padding="5" AcceptsReturn="True" TextWrapping="Wrap" />
+                </GroupBox>
+            </Grid>
         </Grid>
     </DockPanel>
 
 
 </Window>
+
