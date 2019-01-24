@@ -29,31 +29,31 @@ namespace StockAnalyzer.Windows
             StockProgress.Visibility = Visibility.Visible;
             StockProgress.IsIndeterminate = true;
 
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
 
-            var data = new[]
-            {
-                new StockPrice {Ticker = "MSFT", Volume = 1, Change = 1, ChangePercent = 100 }
-            };
+            //var data = new[]
+            //{
+            //    new StockPrice {Ticker = "MSFT", Volume = 1, Change = 1, ChangePercent = 100 }
+            //};
 
-            StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
+            //StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
 
             Stocks.ItemsSource = data;
             StockProgress.Visibility = Visibility.Hidden;
 
             // Step 1
-            //var store = new DataStore();
+            ////var store = new DataStore();
 
-            //var data = await store.LoadStocks();
+            ////var data = await store.LoadStocks();
 
-            //Stocks.ItemsSource = data["MSFT"];
+            ////Stocks.ItemsSource = data["MSFT"];
 
             // Step 2
             //StockProgress.Visibility = Visibility.Visible;
             //StockProgress.IsIndeterminate = true;
-            //var service = new StockService();
+            var service = new StockService();
 
-            //var data = await service.GetStockPricesFor(Ticker.Text);
+            var data = await service.GetStockPricesFor(Ticker.Text);
 
             //watch.Stop();
 
