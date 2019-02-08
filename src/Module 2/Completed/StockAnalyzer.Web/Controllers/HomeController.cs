@@ -13,6 +13,10 @@ namespace StockAnalyzer.Web.Controllers
             return View();
         }
 
+
+
+
+
         [Route("Stock/{ticker}")]
         public async Task<ActionResult> Stock(string ticker)
         {
@@ -26,5 +30,13 @@ namespace StockAnalyzer.Web.Controllers
 
             return View(data[ticker]);
         }
+
+
+
+
+
+
+
+
     }
 }
