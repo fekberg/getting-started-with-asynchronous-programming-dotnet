@@ -10,7 +10,7 @@ namespace StockAnalyzer.Windows.Services
 {
     public interface IStockService
     {
-        Task<IEnumerable<StockPrice>> GetStockPricesFor(string ticker, 
+        Task<IEnumerable<StockPrice>> GetStockPricesFor(string ticker,
             CancellationToken cancellationToken);
     }
 

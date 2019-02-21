@@ -25,7 +25,7 @@ namespace StockAnalyzer.Windows
         
         CancellationTokenSource cancellationTokenSource = null;
 
-        private async void Search_Click(object sender, RoutedEventArgs e)
+        private void Search_Click(object sender, RoutedEventArgs e)
         {
             #region Before loading stock data
             var watch = new Stopwatch();
@@ -36,50 +36,27 @@ namespace StockAnalyzer.Windows
             Search.Content = "Cancel";
             #endregion
 
-            #region Cancellation
-            if (cancellationTokenSource != null)
+            var lines = File.ReadAllLines(@"C:\Code\Pluralsight\StockData\StockPrices_Small.csv");
+
+            var data = new List<StockPrice>();
+            
+            foreach(var line in lines.Skip(1))
             {
-                cancellationTokenSource.Cancel();
-                cancellationTokenSource = null;
-                return;
-            }
+                var segments = line.Split(',');
 
-            cancellationTokenSource = new CancellationTokenSource();
-            cancellationTokenSource.Token.Register(() =>
-            {
-                Notes.Text += "Cancellation requested" + Environment.NewLine;
-            });
-            #endregion
-
-            try
-            {
-                var tickers = Ticker.Text.Split(',', ' ');
-
-                var service = new StockService();
-
-                var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
-                foreach (var ticker in tickers)
+                for (var i = 0; i < segments.Length; i++) segments[i] = segments[i].Trim('\'', '"');
+                var price = new StockPrice
                 {
-                    var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
-
-                    tickerLoadingTasks.Add(loadTask);
-                }
-                var timeoutTask = Task.Delay(2000);
-
-                var allStocksLoadingTask = Task.WhenAll(tickerLoadingTasks);
-
-                var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
-                
-                Stocks.ItemsSource = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
+                    Ticker = segments[0],
+                    TradeDate = Convert.ToDateTime(segments[1]),
+                    Volume = Convert.ToInt32(segments[6]),
+                    Change = Convert.ToDecimal(segments[7]),
+                    ChangePercent = Convert.ToDecimal(segments[8]),
+                };
+                data.Add(price);
             }
-            catch (Exception ex)
-            {
-                Notes.Text += ex.Message + Environment.NewLine;
-            }
-            finally
-            {
-                cancellationTokenSource = null;
-            }
+
+            Stocks.ItemsSource = data.Where(price => price.Ticker == Ticker.Text);
 
             #region After stock data is loaded
             StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
@@ -87,232 +64,6 @@ namespace StockAnalyzer.Windows
             Search.Content = "Search";
             #endregion
         }
-        
-        #region Process a task as they complete
-        //private async void Search_Click(object sender, RoutedEventArgs e)
-        //{
-        //    #region Before loading stock data
-        //    var watch = new Stopwatch();
-        //    watch.Start();
-        //    StockProgress.Visibility = Visibility.Visible;
-        //    StockProgress.IsIndeterminate = true;
-
-        //    Search.Content = "Cancel";
-        //    #endregion
-
-        //    #region Cancellation
-        //    if (cancellationTokenSource != null)
-        //    {
-        //        cancellationTokenSource.Cancel();
-        //        cancellationTokenSource = null;
-        //        return;
-        //    }
-
-        //    cancellationTokenSource = new CancellationTokenSource();
-
-        //    cancellationTokenSource.Token.Register(() =>
-        //    {
-        //        Notes.Text += "Cancellation requested" + Environment.NewLine;
-        //    });
-        //    #endregion
-
-        //    try
-        //    {
-        //        var tickers = Ticker.Text.Split(',', ' ');
-
-        //        var service = new StockService();
-        //        var stocks = new ConcurrentBag<StockPrice>();
-
-        //        var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
-        //        foreach (var ticker in tickers)
-        //        {
-        //            var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token)
-        //                .ContinueWith(t => {
-        //                    foreach (var stock in t.Result.Take(5)) stocks.Add(stock);
-
-        //                    Dispatcher.Invoke(() => {
-        //                        Stocks.ItemsSource = stocks.ToArray();
-        //                    });
-
-        //                    return t.Result;
-        //                });
-
-        //            tickerLoadingTasks.Add(loadTask);
-        //        }
-
-        //        await Task.WhenAll(tickerLoadingTasks);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Notes.Text += ex.Message + Environment.NewLine;
-        //    }
-        //    finally
-        //    {
-        //        cancellationTokenSource = null;
-        //    }
-
-        //    #region After stock data is loaded
-        //    StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
-        //    StockProgress.Visibility = Visibility.Hidden;
-        //    Search.Content = "Search";
-        //    #endregion
-        //}
-        #endregion
-
-        #region Knowing when All or Any Task completes
-        //private async void Search_Click(object sender, RoutedEventArgs e)
-        //{
-        //    #region Before loading stock data
-        //    var watch = new Stopwatch();
-        //    watch.Start();
-        //    StockProgress.Visibility = Visibility.Visible;
-        //    StockProgress.IsIndeterminate = true;
-
-        //    Search.Content = "Cancel";
-        //    #endregion
-
-        //    #region Cancellation
-        //    if (cancellationTokenSource != null)
-        //    {
-        //        cancellationTokenSource.Cancel();
-        //        cancellationTokenSource = null;
-        //        return;
-        //    }
-
-        //    cancellationTokenSource = new CancellationTokenSource();
-
-        //    cancellationTokenSource.Token.Register(() => {
-        //        Notes.Text += "Cancellation requested" + Environment.NewLine;
-        //    });
-        //    #endregion
-
-        //    try
-        //    {
-        //        var tickers = Ticker.Text.Split(',', ' ');
-
-        //        var service = new StockService();
-
-        //        var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
-        //        foreach (var ticker in tickers)
-        //        {
-        //            var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
-
-        //            tickerLoadingTasks.Add(loadTask);
-        //        }
-        //        var timeoutTask = Task.Delay(2000);
-
-        //        var allStocksLoadingTask = Task.WhenAll(tickerLoadingTasks);
-
-        //        var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
-
-        //        if(completedTask == timeoutTask)
-        //        {
-        //            cancellationTokenSource.Cancel();
-        //            cancellationTokenSource = null;
-        //            throw new Exception("Timeout!");
-        //        }
-
-        //        Stocks.ItemsSource = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        Notes.Text += ex.Message + Environment.NewLine;
-        //    }
-        //    finally
-        //    {
-        //        cancellationTokenSource = null;
-        //    }
-
-        //    #region After stock data is loaded
-        //    StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
-        //    StockProgress.Visibility = Visibility.Hidden;
-        //    Search.Content = "Search";
-        //    #endregion
-        //}
-        #endregion
-
-        #region Handeling Success or Failure
-        //private void Search_Click(object sender, RoutedEventArgs e)
-        //{
-        //    #region Before loading stock data
-        //    var watch = new Stopwatch();
-        //    watch.Start();
-        //    StockProgress.Visibility = Visibility.Visible;
-        //    StockProgress.IsIndeterminate = true;
-
-        //    Search.Content = "Cancel";
-        //    #endregion
-
-        //    if(cancellationTokenSource != null)
-        //    {
-        //        cancellationTokenSource.Cancel();
-        //        cancellationTokenSource = null;
-        //        return;
-        //    }
-
-        //    cancellationTokenSource = new CancellationTokenSource();
-
-        //    cancellationTokenSource.Token.Register(() => {
-        //        Notes.Text = "Cancellation requested";
-        //    });
-
-        //    var loadLinesTask = SearchForStocks(cancellationTokenSource.Token);
-
-        //    var processStocksTask = loadLinesTask.ContinueWith(t => {
-
-        //        var lines = t.Result;
-
-        //        var data = new List<StockPrice>();
-
-        //        foreach (var line in lines.Skip(1))
-        //        {
-        //            var segments = line.Split(',');
-
-        //            for (var i = 0; i < segments.Length; i++) segments[i] = segments[i].Trim('\'', '"');
-
-        //            var price = new StockPrice
-        //            {
-        //                Ticker = segments[0],
-        //                TradeDate = Convert.ToDateTime(segments[1]),
-        //                Volume = Convert.ToInt32(segments[6]),
-        //                Change = Convert.ToDecimal(segments[7]),
-        //                ChangePercent = Convert.ToDecimal(segments[8]),
-        //            };
-
-        //            data.Add(price);
-        //        }
-
-        //        Dispatcher.Invoke(() =>
-        //        {
-        //            Stocks.ItemsSource = data.Where(price => price.Ticker == Ticker.Text);
-        //        });
-        //    }, 
-        //        cancellationTokenSource.Token,
-        //        TaskContinuationOptions.OnlyOnRanToCompletion,
-        //        TaskScheduler.Current);
-
-        //    loadLinesTask.ContinueWith(t => 
-        //    {
-        //        Dispatcher.Invoke(() => {
-        //            Notes.Text = t.Exception.InnerException.Message;
-        //        });
-        //    }, TaskContinuationOptions.OnlyOnFaulted);
-
-        //    processStocksTask.ContinueWith(_ => {
-
-        //        Dispatcher.Invoke(() =>
-        //        {
-        //            #region After stock data is loaded
-        //            StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms, loaded {loadLinesTask.Result.Count} rows";
-        //            StockProgress.Visibility = Visibility.Hidden;
-        //            Search.Content = "Search";
-        //            #endregion
-        //        });
-        //    });
-        //}
-        #endregion
-
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
         {
