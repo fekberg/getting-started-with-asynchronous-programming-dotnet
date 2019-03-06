@@ -87,6 +87,23 @@ namespace StockAnalyzer.Windows
             Search.Content = "Search";
             #endregion
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         #region Process a task as they complete
         //private async void Search_Click(object sender, RoutedEventArgs e)
