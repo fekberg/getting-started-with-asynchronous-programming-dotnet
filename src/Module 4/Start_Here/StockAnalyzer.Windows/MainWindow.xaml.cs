@@ -96,7 +96,7 @@ namespace StockAnalyzer.Windows
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\Pluralsight\StockData\StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)

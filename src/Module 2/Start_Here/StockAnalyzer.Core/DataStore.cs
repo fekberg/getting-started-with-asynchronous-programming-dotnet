@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace StockAnalyzer.Core
 
         private async Task LoadCompanies()
         {
-            using (var stream = new StreamReader(File.OpenRead(@"C:\Code\Pluralsight\Module2\StockData\CompanyData.csv")))
+            using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\CompanyData.csv")))
             {
                 await stream.ReadLineAsync();
 
@@ -76,7 +77,7 @@ namespace StockAnalyzer.Core
             var prices = new List<StockPrice>();
 
             using (var stream =
-                new StreamReader(File.OpenRead(@"C:\Code\Pluralsight\Module2\StockData\StockPrices_Small.csv")))
+                new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_Small.csv")))
             {
                 await stream.ReadLineAsync(); // Skip headers
 
@@ -89,7 +90,7 @@ namespace StockAnalyzer.Core
                     var price = new StockPrice
                     {
                         Ticker = segments[0],
-                        TradeDate = Convert.ToDateTime(segments[1]),
+                        TradeDate = DateTime.ParseExact(segments[1], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
                         Volume = Convert.ToInt32(segments[6]),
                         Change = Convert.ToDecimal(segments[7]),
                         ChangePercent = Convert.ToDecimal(segments[8]),

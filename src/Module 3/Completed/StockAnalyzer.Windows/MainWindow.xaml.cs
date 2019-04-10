@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -291,7 +292,7 @@ namespace StockAnalyzer.Windows
         //            var price = new StockPrice
         //            {
         //                Ticker = segments[0],
-        //                TradeDate = Convert.ToDateTime(segments[1]),
+        //                TradeDate = DateTime.ParseExact(segments[1], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
         //                Volume = Convert.ToInt32(segments[6]),
         //                Change = Convert.ToDecimal(segments[7]),
         //                ChangePercent = Convert.ToDecimal(segments[8]),
@@ -337,7 +338,7 @@ namespace StockAnalyzer.Windows
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\Pluralsight\StockData\StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)

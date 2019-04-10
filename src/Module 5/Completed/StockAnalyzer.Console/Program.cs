@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace StockAnalyzer.Console
+namespace StockAnalyzer
 {
     class Program
     {
         static async Task Main(string[] args)
         {
+            Console.Write("Search for ticker: ");
+            var ticker = Console.ReadLine();
+
             var store = new DataStore();
-            await foreach(var stock in store.LoadStocks())
+            await foreach(var stock in store.LoadStocks(ticker))
             {
                 System.Console.WriteLine($"{stock.Ticker} {stock.Change}");
             }
@@ -21,7 +25,10 @@ namespace StockAnalyzer.Console
     {
         public async IAsyncEnumerable<StockPrice> LoadStocks(string ticker)
         {
-            using var stream = new StreamReader(@"C:\Code\Pluralsight\StockData\StockPrices_Small.csv");
+            using var stream = new StreamReader(@"C:\Code\StockData\StockPrices_Small.csv");
+
+            // Skip first line
+            await stream.ReadLineAsync();
 
             string line;
             while((line = await stream.ReadLineAsync()) != null)
@@ -33,7 +40,7 @@ namespace StockAnalyzer.Console
                 var price = new StockPrice
                 {
                     Ticker = segments[0],
-                    TradeDate = Convert.ToDateTime(segments[1]),
+                    TradeDate = DateTime.ParseExact(segments[1], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
                     Volume = Convert.ToInt32(segments[6]),
                     Change = Convert.ToDecimal(segments[7]),
                     ChangePercent = Convert.ToDecimal(segments[8]),
@@ -42,16 +49,12 @@ namespace StockAnalyzer.Console
                 if(price.Ticker == ticker)
                 {
                     yield return price;
-                }
 
-                await Task.Delay(400);
+                    await Task.Delay(200);
+                }
             }
         }
     }
-
-
-
-
 
     public class StockPrice
     {

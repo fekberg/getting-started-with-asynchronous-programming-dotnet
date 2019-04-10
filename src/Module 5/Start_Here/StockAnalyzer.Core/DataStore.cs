@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace StockAnalyzer.Core
     public class DataStore
     {
         public Dictionary<string, Company> Companies = new Dictionary<string, Company>();
-        public static Dictionary<string, IEnumerable<StockPrice>> Stocks 
+        public static Dictionary<string, IEnumerable<StockPrice>> Stocks
             = new Dictionary<string, IEnumerable<StockPrice>>();
 
 
@@ -34,7 +35,7 @@ namespace StockAnalyzer.Core
 
         private async Task LoadCompanies()
         {
-            using (var stream = new StreamReader(File.OpenRead(@"C:\Code\Pluralsight\StockData\CompanyData.csv")))
+            using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\CompanyData.csv")))
             {
                 await stream.ReadLineAsync();
 
@@ -42,7 +43,7 @@ namespace StockAnalyzer.Core
                 while ((line = await stream.ReadLineAsync()) != null)
                 {
                     #region Loading and Adding Company to In-Memory Dictionary
-                    
+
                     var segments = line.Split(',');
 
                     for (var i = 0; i < segments.Length; i++) segments[i] = segments[i].Trim('\'', '"');
@@ -76,7 +77,7 @@ namespace StockAnalyzer.Core
             var prices = new List<StockPrice>();
 
             using (var stream =
-                new StreamReader(File.OpenRead(@"C:\Code\Pluralsight\StockData\StockPrices_Small.csv")))
+                new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_Small.csv")))
             {
                 await stream.ReadLineAsync(); // Skip headers
 
@@ -89,7 +90,7 @@ namespace StockAnalyzer.Core
                     var price = new StockPrice
                     {
                         Ticker = segments[0],
-                        TradeDate = Convert.ToDateTime(segments[1]),
+                        TradeDate = DateTime.ParseExact(segments[1], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
                         Volume = Convert.ToInt32(segments[6]),
                         Change = Convert.ToDecimal(segments[7]),
                         ChangePercent = Convert.ToDecimal(segments[8]),
