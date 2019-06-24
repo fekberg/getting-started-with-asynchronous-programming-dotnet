@@ -17,7 +17,7 @@ namespace StockAnalyzer.Windows
         {
             InitializeComponent();
         }
-        
+
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             #region Before loading stock data
@@ -40,7 +40,7 @@ namespace StockAnalyzer.Windows
             StockProgress.Visibility = Visibility.Hidden;
             #endregion
         }
-                
+
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));

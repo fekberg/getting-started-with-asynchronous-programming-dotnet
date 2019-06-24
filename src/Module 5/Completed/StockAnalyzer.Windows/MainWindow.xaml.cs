@@ -97,7 +97,7 @@ namespace StockAnalyzer.Windows
                 {
                     var prices = new List<StockPrice>();
 
-                    var lines = File.ReadAllLines(@"C:\Code\StockData\StockPrices_Small.csv");
+                    var lines = File.ReadAllLines(@"StockPrices_Small.csv");
 
                     foreach (var line in lines.Skip(1))
                     {
@@ -256,7 +256,7 @@ namespace StockAnalyzer.Windows
         //    Stocks.ItemsSource = allStocks.SelectMany(stocks => stocks);
         //}
         #endregion
-            
+
         #region Deadlock hack
         //CancellationTokenSource cancellationTokenSource = null;
 

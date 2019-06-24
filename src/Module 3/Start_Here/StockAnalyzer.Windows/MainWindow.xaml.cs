@@ -23,7 +23,7 @@ namespace StockAnalyzer.Windows
         {
             InitializeComponent();
         }
-        
+
         CancellationTokenSource cancellationTokenSource = null;
 
         private void Search_Click(object sender, RoutedEventArgs e)
@@ -37,11 +37,11 @@ namespace StockAnalyzer.Windows
             Search.Content = "Cancel";
             #endregion
 
-            var lines = File.ReadAllLines(@"C:\Code\StockData\StockPrices_Small.csv");
+            var lines = File.ReadAllLines(@"StockPrices_Small.csv");
 
             var data = new List<StockPrice>();
-            
-            foreach(var line in lines.Skip(1))
+
+            foreach (var line in lines.Skip(1))
             {
                 var segments = line.Split(',');
 
@@ -68,16 +68,16 @@ namespace StockAnalyzer.Windows
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
         {
-            var loadLinesTask = Task.Run(async () => 
+            var loadLinesTask = Task.Run(async () =>
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"StockPrices_small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)
                     {
-                        if(cancellationToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested)
                         {
                             return lines;
                         }
@@ -90,7 +90,7 @@ namespace StockAnalyzer.Windows
 
             return loadLinesTask;
         }
-                        
+
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));

@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace StockAnalyzer
 {
+    //  !! WARNING !!
+    //
+    //  THIS PROJECT REQUIRES YOU TO RUN .NET CORE 3.0
+    //  
+    //
+    //  USING "async Task Main" IS A C# 7.1 FEATURE AND REQUIRES YOU TO CHANGE THE PROJECT VERSION TO C# 7.1.
+    //  USING "await foreach" IS A C# 8.0 FEATURE AND REQUIRES YOU TO CHANGE THE PROJECT VERSION TO C# 8.0.
+    //
+    //  EDIT StockAnalyzer.Console.csproj AND CHANGE <LangVersion></LangVersion> TO "preview" LIKE SO: <LangVersion>preview</LangVersion>
+    //
     class Program
     {
         static async Task Main(string[] args)
@@ -25,7 +35,7 @@ namespace StockAnalyzer
     {
         public async IAsyncEnumerable<StockPrice> LoadStocks(string ticker)
         {
-            using var stream = new StreamReader(@"C:\Code\StockData\StockPrices_Small.csv");
+            using var stream = new StreamReader(@"StockPrices_Small.csv");
 
             // Skip first line
             await stream.ReadLineAsync();

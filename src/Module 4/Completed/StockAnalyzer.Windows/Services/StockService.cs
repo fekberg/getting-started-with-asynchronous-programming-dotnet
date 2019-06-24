@@ -16,11 +16,11 @@ namespace StockAnalyzer.Windows.Services
 
     public class StockService : IStockService
     {
-        // int i = 0;
+        int i = 0;
         public async Task<IEnumerable<StockPrice>> GetStockPricesFor(string ticker,
             CancellationToken cancellationToken)
         {
-            // await Task.Delay((i++) * 1000);
+            await Task.Delay((i++) * 1000);
             using (var client = new HttpClient())
             {
                 var result = await client.GetAsync($"http://localhost:61363/api/stocks/{ticker}",

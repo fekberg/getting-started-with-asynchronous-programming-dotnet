@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using StockAnalyzer.Core;
 
@@ -12,11 +14,7 @@ namespace StockAnalyzer.Web.Controllers
 
             return View();
         }
-
-
-
-
-
+        
         [Route("Stock/{ticker}")]
         public async Task<ActionResult> Stock(string ticker)
         {
@@ -24,7 +22,7 @@ namespace StockAnalyzer.Web.Controllers
 
             ViewBag.Title = $"Stock Details for {ticker}";
 
-            var store = new DataStore();
+            var store = new DataStore(HostingEnvironment.MapPath("~"));
 
             var data = await store.LoadStocks();
 

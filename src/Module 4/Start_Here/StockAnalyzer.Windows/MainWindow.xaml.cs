@@ -22,7 +22,7 @@ namespace StockAnalyzer.Windows
         {
             InitializeComponent();
         }
-        
+
         CancellationTokenSource cancellationTokenSource = null;
 
         private async void Search_Click(object sender, RoutedEventArgs e)
@@ -70,7 +70,7 @@ namespace StockAnalyzer.Windows
 
                 var loadedStocks = await Task.WhenAll(tickerLoadingTasks);
 
-                
+
 
                 Stocks.ItemsSource = loadedStocks.SelectMany(stocks => stocks);
             }
@@ -92,16 +92,16 @@ namespace StockAnalyzer.Windows
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
         {
-            var loadLinesTask = Task.Run(async () => 
+            var loadLinesTask = Task.Run(async () =>
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"StockPrices_small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)
                     {
-                        if(cancellationToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested)
                         {
                             return lines;
                         }
@@ -114,7 +114,7 @@ namespace StockAnalyzer.Windows
 
             return loadLinesTask;
         }
-                        
+
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));

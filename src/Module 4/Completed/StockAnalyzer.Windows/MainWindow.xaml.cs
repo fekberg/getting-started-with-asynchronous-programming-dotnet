@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,17 @@ namespace StockAnalyzer.Windows
 
         //private async void Search_Click(object sender, RoutedEventArgs e)
         //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        try
+        //        {
+        //            var response = await client.GetAsync("http://localhost:61363");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
+        //        }
+        //    }
 
         //    #region Before loading stock data
         //    var watch = new Stopwatch();
@@ -133,7 +145,17 @@ namespace StockAnalyzer.Windows
 
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
-
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync("http://localhost:61363");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
+                }
+            }
             #region Before loading stock data
             var watch = new Stopwatch();
             watch.Start();
@@ -211,13 +233,23 @@ namespace StockAnalyzer.Windows
             #endregion
         }
         #endregion
-        
+
         #region Invoke operations in parallel
         //CancellationTokenSource cancellationTokenSource = null;
 
         //private async void Search_Click(object sender, RoutedEventArgs e)
         //{
-
+        //    using (var client = new HttpClient())
+        //    {
+        //        try
+        //        {
+        //            var response = await client.GetAsync("http://localhost:61363");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
+        //        }
+        //    }
         //    #region Before loading stock data
         //    var watch = new Stopwatch();
         //    watch.Start();
@@ -376,7 +408,7 @@ namespace StockAnalyzer.Windows
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"StockPrices_small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)

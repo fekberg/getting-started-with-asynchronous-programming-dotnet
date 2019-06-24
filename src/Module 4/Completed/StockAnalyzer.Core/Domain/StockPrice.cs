@@ -13,7 +13,5 @@ namespace StockAnalyzer.Core.Domain
         public int Volume  { get; set; }
         public decimal Change  { get; set; }
         public decimal ChangePercent { get; set; }
-
-        public override string ToString() => $"{Ticker} ({TradeDate}) Change: {Change}";
     }
 }

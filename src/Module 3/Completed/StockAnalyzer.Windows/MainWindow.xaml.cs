@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,11 +24,23 @@ namespace StockAnalyzer.Windows
         {
             InitializeComponent();
         }
-        
+
         CancellationTokenSource cancellationTokenSource = null;
 
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync("http://localhost:61363");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
+                }
+            }
+
             #region Before loading stock data
             var watch = new Stopwatch();
             watch.Start();
@@ -70,7 +83,7 @@ namespace StockAnalyzer.Windows
                 var allStocksLoadingTask = Task.WhenAll(tickerLoadingTasks);
 
                 var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
-                
+
                 Stocks.ItemsSource = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
             }
             catch (Exception ex)
@@ -105,10 +118,22 @@ namespace StockAnalyzer.Windows
 
 
 
-        
+
         #region Process a task as they complete
         //private async void Search_Click(object sender, RoutedEventArgs e)
         //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        try
+        //        {
+        //            var response = await client.GetAsync("http://localhost:61363");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
+        //        }
+        //    }
+
         //    #region Before loading stock data
         //    var watch = new Stopwatch();
         //    watch.Start();
@@ -145,10 +170,12 @@ namespace StockAnalyzer.Windows
         //        foreach (var ticker in tickers)
         //        {
         //            var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token)
-        //                .ContinueWith(t => {
+        //                .ContinueWith(t =>
+        //                {
         //                    foreach (var stock in t.Result.Take(5)) stocks.Add(stock);
 
-        //                    Dispatcher.Invoke(() => {
+        //                    Dispatcher.Invoke(() =>
+        //                    {
         //                        Stocks.ItemsSource = stocks.ToArray();
         //                    });
 
@@ -181,6 +208,18 @@ namespace StockAnalyzer.Windows
         #region Knowing when All or Any Task completes
         //private async void Search_Click(object sender, RoutedEventArgs e)
         //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        try
+        //        {
+        //            var response = await client.GetAsync("http://localhost:61363");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
+        //        }
+        //    }
+
         //    #region Before loading stock data
         //    var watch = new Stopwatch();
         //    watch.Start();
@@ -200,7 +239,8 @@ namespace StockAnalyzer.Windows
 
         //    cancellationTokenSource = new CancellationTokenSource();
 
-        //    cancellationTokenSource.Token.Register(() => {
+        //    cancellationTokenSource.Token.Register(() =>
+        //    {
         //        Notes.Text += "Cancellation requested" + Environment.NewLine;
         //    });
         //    #endregion
@@ -224,7 +264,7 @@ namespace StockAnalyzer.Windows
 
         //        var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
 
-        //        if(completedTask == timeoutTask)
+        //        if (completedTask == timeoutTask)
         //        {
         //            cancellationTokenSource.Cancel();
         //            cancellationTokenSource = null;
@@ -233,7 +273,7 @@ namespace StockAnalyzer.Windows
 
         //        Stocks.ItemsSource = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
         //    }
-        //    catch(Exception ex)
+        //    catch (Exception ex)
         //    {
         //        Notes.Text += ex.Message + Environment.NewLine;
         //    }
@@ -262,7 +302,7 @@ namespace StockAnalyzer.Windows
         //    Search.Content = "Cancel";
         //    #endregion
 
-        //    if(cancellationTokenSource != null)
+        //    if (cancellationTokenSource != null)
         //    {
         //        cancellationTokenSource.Cancel();
         //        cancellationTokenSource = null;
@@ -271,13 +311,15 @@ namespace StockAnalyzer.Windows
 
         //    cancellationTokenSource = new CancellationTokenSource();
 
-        //    cancellationTokenSource.Token.Register(() => {
+        //    cancellationTokenSource.Token.Register(() =>
+        //    {
         //        Notes.Text = "Cancellation requested";
         //    });
 
         //    var loadLinesTask = SearchForStocks(cancellationTokenSource.Token);
 
-        //    var processStocksTask = loadLinesTask.ContinueWith(t => {
+        //    var processStocksTask = loadLinesTask.ContinueWith(t =>
+        //    {
 
         //        var lines = t.Result;
 
@@ -305,19 +347,21 @@ namespace StockAnalyzer.Windows
         //        {
         //            Stocks.ItemsSource = data.Where(price => price.Ticker == Ticker.Text);
         //        });
-        //    }, 
+        //    },
         //        cancellationTokenSource.Token,
         //        TaskContinuationOptions.OnlyOnRanToCompletion,
         //        TaskScheduler.Current);
 
-        //    loadLinesTask.ContinueWith(t => 
+        //    loadLinesTask.ContinueWith(t =>
         //    {
-        //        Dispatcher.Invoke(() => {
+        //        Dispatcher.Invoke(() =>
+        //        {
         //            Notes.Text = t.Exception.InnerException.Message;
         //        });
         //    }, TaskContinuationOptions.OnlyOnFaulted);
 
-        //    processStocksTask.ContinueWith(_ => {
+        //    processStocksTask.ContinueWith(_ =>
+        //    {
 
         //        Dispatcher.Invoke(() =>
         //        {
@@ -334,16 +378,16 @@ namespace StockAnalyzer.Windows
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
         {
-            var loadLinesTask = Task.Run(async () => 
+            var loadLinesTask = Task.Run(async () =>
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"StockPrices_small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)
                     {
-                        if(cancellationToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested)
                         {
                             return lines;
                         }
@@ -356,7 +400,7 @@ namespace StockAnalyzer.Windows
 
             return loadLinesTask;
         }
-                        
+
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));

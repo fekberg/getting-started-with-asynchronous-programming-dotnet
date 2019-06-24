@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,12 @@ namespace StockAnalyzer.Core
         public static Dictionary<string, IEnumerable<StockPrice>> Stocks 
             = new Dictionary<string, IEnumerable<StockPrice>>();
 
+        private string basePath { get; }
+
+        public DataStore(string basePath)
+        {
+            this.basePath = basePath;
+        }
 
         public async Task<Dictionary<string, IEnumerable<StockPrice>>> LoadStocks()
         {
@@ -35,7 +42,7 @@ namespace StockAnalyzer.Core
 
         private async Task LoadCompanies()
         {
-            using (var stream = new StreamReader(File.OpenRead(@"C:\Code\StockData\CompanyData.csv")))
+            using (var stream = new StreamReader(File.OpenRead(Path.Combine(basePath, @"CompanyData.csv"))))
             {
                 await stream.ReadLineAsync();
 
@@ -43,7 +50,7 @@ namespace StockAnalyzer.Core
                 while ((line = await stream.ReadLineAsync()) != null)
                 {
                     #region Loading and Adding Company to In-Memory Dictionary
-                    
+
                     var segments = line.Split(',');
 
                     for (var i = 0; i < segments.Length; i++) segments[i] = segments[i].Trim('\'', '"');
@@ -77,7 +84,7 @@ namespace StockAnalyzer.Core
             var prices = new List<StockPrice>();
 
             using (var stream =
-                new StreamReader(File.OpenRead(@"C:\Code\StockData\StockPrices_Small.csv")))
+                new StreamReader(File.OpenRead(Path.Combine(basePath, @"StockPrices_Small.csv"))))
             {
                 await stream.ReadLineAsync(); // Skip headers
 
