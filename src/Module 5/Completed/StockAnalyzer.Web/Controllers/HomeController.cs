@@ -22,7 +22,7 @@ namespace StockAnalyzer.Web.Controllers
 
             ViewBag.Title = $"Stock Details for {ticker}";
 
-            var store = new DataStore(HostingEnvironment.MapPath("~"));
+            var store = new DataStore(HostingEnvironment.MapPath("~/bin"));
 
             var data = await store.LoadStocks();
 
