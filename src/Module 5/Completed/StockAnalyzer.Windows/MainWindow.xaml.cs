@@ -147,29 +147,7 @@ namespace StockAnalyzer.Windows
             process.Start();
             return source.Task;
         }
-
         #endregion
-
-        Random random = new Random();
-        private decimal CalculateExpensiveComputation(IEnumerable<StockPrice> stocks)
-        {
-            Thread.Yield();
-
-            var computedValue = 0m;
-
-            foreach (var stock in stocks)
-            {
-                for (int i = 0; i < stocks.Count() - 2; i++)
-                {
-                    for (int a = 0; a < random.Next(50, 60); a++)
-                    {
-                        computedValue += stocks.ElementAt(i).Change + stocks.ElementAt(i + 1).Change;
-                    }
-                }
-            }
-
-            return computedValue;
-        }
 
         #region Progress Reporting
         //CancellationTokenSource cancellationTokenSource = null;
@@ -206,7 +184,8 @@ namespace StockAnalyzer.Windows
         //        StockProgress.Maximum = Ticker.Text.Split(',', ' ').Count();
 
         //        var progress = new Progress<IEnumerable<StockPrice>>();
-        //        progress.ProgressChanged += (_, stocks) => {
+        //        progress.ProgressChanged += (_, stocks) =>
+        //        {
         //            StockProgress.Value += 1;
         //            Notes.Text += $"Loaded {stocks.Count()} for {stocks.First().Ticker} " +
         //            $"{Environment.NewLine}";
@@ -228,33 +207,33 @@ namespace StockAnalyzer.Windows
         //    StockProgress.Visibility = Visibility.Hidden;
         //    Search.Content = "Search";
         //    #endregion
-        ////}
-
-        //private async Task LoadStocks(IProgress<IEnumerable<StockPrice>> progress = null)
-        //{
-        //    var tickers = Ticker.Text.Split(',', ' ');
-
-        //    var service = new StockService();
-
-        //    var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
-
-        //    foreach (var ticker in tickers)
-        //    {
-        //        var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
-
-        //        loadTask = loadTask.ContinueWith(stockTask =>
-        //        {
-        //            progress?.Report(stockTask.Result);
-        //            return stockTask.Result;
-        //        });
-
-        //        tickerLoadingTasks.Add(loadTask);
         //    }
 
-        //    var allStocks = await Task.WhenAll(tickerLoadingTasks);
+        //    private async Task LoadStocks(IProgress<IEnumerable<StockPrice>> progress = null)
+        //    {
+        //        var tickers = Ticker.Text.Split(',', ' ');
 
-        //    Stocks.ItemsSource = allStocks.SelectMany(stocks => stocks);
-        //}
+        //        var service = new StockService();
+
+        //        var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
+
+        //        foreach (var ticker in tickers)
+        //        {
+        //            var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
+
+        //            loadTask = loadTask.ContinueWith(stockTask =>
+        //            {
+        //                progress?.Report(stockTask.Result);
+        //                return stockTask.Result;
+        //            });
+
+        //            tickerLoadingTasks.Add(loadTask);
+        //        }
+
+        //        var allStocks = await Task.WhenAll(tickerLoadingTasks);
+
+        //        Stocks.ItemsSource = allStocks.SelectMany(stocks => stocks);
+        //    }
         #endregion
 
         #region Deadlock hack
@@ -328,7 +307,7 @@ namespace StockAnalyzer.Windows
         //}
 
         #endregion
-
+            
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));

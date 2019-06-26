@@ -84,6 +84,13 @@ namespace StockAnalyzer.Windows
 
                 var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
 
+                if (completedTask == timeoutTask)
+                {
+                    cancellationTokenSource.Cancel();
+                    cancellationTokenSource = null;
+                    throw new Exception("Timeout!");
+                }
+
                 Stocks.ItemsSource = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
             }
             catch (Exception ex)
@@ -101,23 +108,6 @@ namespace StockAnalyzer.Windows
             Search.Content = "Search";
             #endregion
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         #region Process a task as they complete
         //private async void Search_Click(object sender, RoutedEventArgs e)
@@ -374,7 +364,6 @@ namespace StockAnalyzer.Windows
         //    });
         //}
         #endregion
-
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
         {

@@ -70,8 +70,7 @@ namespace StockAnalyzer.Windows
 
                 var loadedStocks = await Task.WhenAll(tickerLoadingTasks);
 
-
-
+                
                 Stocks.ItemsSource = loadedStocks.SelectMany(stocks => stocks);
             }
             catch (Exception ex)

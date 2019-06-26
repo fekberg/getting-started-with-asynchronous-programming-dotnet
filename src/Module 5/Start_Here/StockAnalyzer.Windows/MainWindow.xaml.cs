@@ -93,6 +93,13 @@ namespace StockAnalyzer.Windows
 
             var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
 
+            if (completedTask == timeoutTask)
+            {
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource = null;
+                throw new Exception("Timeout!");
+            }
+
             Stocks.ItemsSource = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
         }
 
