@@ -58,7 +58,7 @@ namespace StockAnalyzer.Windows
 
                 Stocks.ItemsSource = prices;
 
-                var service = new StockService();
+                var service = new StockDiskStreamService();
 
                 await foreach (var price in service.GetAllStockPrices(cancellationTokenSource.Token))
                 {

@@ -8,16 +8,36 @@ using StockAnalyzer.Core.Domain;
 
 namespace StockAnalyzer.Windows.Services
 {
-    public interface IStockService
+    public interface IStockStreamService
     {
-        IAsyncEnumerable<StockPrice> GetAllStockPrices(CancellationToken cancellationToken = default);
+        IAsyncEnumerable<StockPrice> 
+            GetAllStockPrices(CancellationToken cancellationToken = default);
     }
 
-    public class StockService : IStockService
+    public class MockStockStreamService : IStockStreamService
     {
         public async IAsyncEnumerable<StockPrice> GetAllStockPrices(CancellationToken cancellationToken = default)
         {
-            using var stream = new StreamReader(File.OpenRead(@"StockPrices_small.csv"));
+            await Task.Delay(500);
+            yield return new StockPrice { Ticker = "MSFT", Change = 0.5m, ChangePercent = 0.75m };
+
+            await Task.Delay(500);
+            yield return new StockPrice { Ticker = "MSFT", Change = 0.2m, ChangePercent = 0.15m };
+
+            await Task.Delay(500);
+            yield return new StockPrice { Ticker = "GOOG", Change = 0.3m, ChangePercent = 0.25m };
+
+            await Task.Delay(500);
+            yield return new StockPrice { Ticker = "GOOG", Change = 0.5m, ChangePercent = 0.65m };
+        }
+    }
+
+    public class StockDiskStreamService : IStockStreamService
+    {
+        public async IAsyncEnumerable<StockPrice> GetAllStockPrices(CancellationToken cancellationToken = default)
+        {
+            using var stream = 
+                new StreamReader(File.OpenRead(@"StockPrices_small.csv"));
 
             await stream.ReadLineAsync();
 
@@ -25,7 +45,7 @@ namespace StockAnalyzer.Windows.Services
 
             while ((line = await stream.ReadLineAsync()) != null)
             {
-                if(cancellationToken.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
@@ -47,21 +67,4 @@ namespace StockAnalyzer.Windows.Services
         }
     }
 
-    public class MockStockService : IStockService
-    {
-        public async IAsyncEnumerable<StockPrice> GetAllStockPrices(CancellationToken cancellationToken = default)
-        {
-            await Task.Delay(500);
-            yield return new StockPrice { Ticker = "MSFT", Change = 0.5m, ChangePercent = 0.75m };
-
-            await Task.Delay(500);
-            yield return new StockPrice { Ticker = "MSFT", Change = 0.2m, ChangePercent = 0.15m };
-
-            await Task.Delay(500);
-            yield return new StockPrice { Ticker = "GOOGL", Change = 0.3m, ChangePercent = 0.25m };
-
-            await Task.Delay(500);
-            yield return new StockPrice { Ticker = "GOOGL", Change = 0.5m, ChangePercent = 0.65m };
-        }
-    }
 }
