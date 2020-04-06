@@ -64,6 +64,8 @@ namespace StockAnalyzer.Windows
             StockProgress.Visibility = Visibility.Hidden;
             Search.Content = "Search";
             #endregion
+
+            cancellationTokenSource = null;
         }
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)

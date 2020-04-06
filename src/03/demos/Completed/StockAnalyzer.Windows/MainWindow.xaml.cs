@@ -373,6 +373,8 @@ namespace StockAnalyzer.Windows
         //            #endregion
         //        });
         //    });
+
+        //    cancellationTokenSource = null;
         //}
         #endregion
 
