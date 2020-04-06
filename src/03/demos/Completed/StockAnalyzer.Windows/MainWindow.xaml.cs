@@ -27,8 +27,11 @@ namespace StockAnalyzer.Windows
 
         CancellationTokenSource cancellationTokenSource = null;
 
+        #region Completed
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
+            #region Code to make sure Web API is running
+            // This code is just here to make sure that you have started the web api as well!
             using (var client = new HttpClient())
             {
                 try
@@ -40,6 +43,7 @@ namespace StockAnalyzer.Windows
                     MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
                 }
             }
+            #endregion
 
             #region Before loading stock data
             var watch = new Stopwatch();
@@ -108,10 +112,13 @@ namespace StockAnalyzer.Windows
             Search.Content = "Search";
             #endregion
         }
+        #endregion
 
         #region Process a task as they complete
         //private async void Search_Click(object sender, RoutedEventArgs e)
         //{
+        //    #region Code to make sure Web API is running
+        //    // This code is just here to make sure that you have started the web api as well!
         //    using (var client = new HttpClient())
         //    {
         //        try
@@ -123,6 +130,7 @@ namespace StockAnalyzer.Windows
         //            MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
         //        }
         //    }
+        //    #endregion
 
         //    #region Before loading stock data
         //    var watch = new Stopwatch();
@@ -198,6 +206,8 @@ namespace StockAnalyzer.Windows
         #region Knowing when All or Any Task completes
         //private async void Search_Click(object sender, RoutedEventArgs e)
         //{
+        //    #region Code to make sure Web API is running
+        //    // This code is just here to make sure that you have started the web api as well!
         //    using (var client = new HttpClient())
         //    {
         //        try
@@ -209,6 +219,7 @@ namespace StockAnalyzer.Windows
         //            MessageBox.Show("Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.", "StockAnalyzer.Web IS NOT RUNNING");
         //        }
         //    }
+        //    #endregion
 
         //    #region Before loading stock data
         //    var watch = new Stopwatch();
@@ -362,6 +373,24 @@ namespace StockAnalyzer.Windows
         //            #endregion
         //        });
         //    });
+        //}
+        #endregion
+
+        #region Controlling the Continuations Execution Context
+        //private async void Search_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var result = await GetStockFor(Ticker.Text);
+
+        //    Notes.Text += $"Stocks loaded!{Environment.NewLine}";
+        //}
+        //public async Task<IEnumerable<StockPrice>> GetStockFor(string ticker)
+        //{
+        //    var service = new StockService();
+
+        //    var stocks = await service.GetStockPricesFor(ticker, CancellationToken.None)
+        //        .ConfigureAwait(false);
+
+        //    return stocks.Take(5);
         //}
         #endregion
 
