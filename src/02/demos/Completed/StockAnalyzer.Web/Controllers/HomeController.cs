@@ -8,9 +8,14 @@ namespace StockAnalyzer.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             ViewBag.Title = "Home Page";
+
+            // Let's make sure that we can load the files when you start the project!
+            var store = new DataStore(HostingEnvironment.MapPath("~/bin"));
+
+            await store.LoadStocks();
 
             return View();
         }
@@ -28,13 +33,5 @@ namespace StockAnalyzer.Web.Controllers
 
             return View(data[ticker]);
         }
-
-
-
-
-
-
-
-
     }
 }
