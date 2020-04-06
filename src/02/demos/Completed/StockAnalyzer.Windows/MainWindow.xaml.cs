@@ -29,7 +29,7 @@ namespace StockAnalyzer.Windows
 
             try
             {
-                await GetStocks();
+                await GetStocks()
             }
             catch (Exception ex)
             {
