@@ -207,33 +207,33 @@ namespace StockAnalyzer.Windows
         //    StockProgress.Visibility = Visibility.Hidden;
         //    Search.Content = "Search";
         //    #endregion
-        //    }
+        //}
 
-        //    private async Task LoadStocks(IProgress<IEnumerable<StockPrice>> progress = null)
+        //private async Task LoadStocks(IProgress<IEnumerable<StockPrice>> progress = null)
+        //{
+        //    var tickers = Ticker.Text.Split(',', ' ');
+
+        //    var service = new StockService();
+
+        //    var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
+
+        //    foreach (var ticker in tickers)
         //    {
-        //        var tickers = Ticker.Text.Split(',', ' ');
+        //        var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
 
-        //        var service = new StockService();
-
-        //        var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
-
-        //        foreach (var ticker in tickers)
+        //        loadTask = loadTask.ContinueWith(stockTask =>
         //        {
-        //            var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
+        //            progress?.Report(stockTask.Result);
+        //            return stockTask.Result;
+        //        });
 
-        //            loadTask = loadTask.ContinueWith(stockTask =>
-        //            {
-        //                progress?.Report(stockTask.Result);
-        //                return stockTask.Result;
-        //            });
-
-        //            tickerLoadingTasks.Add(loadTask);
-        //        }
-
-        //        var allStocks = await Task.WhenAll(tickerLoadingTasks);
-
-        //        Stocks.ItemsSource = allStocks.SelectMany(stocks => stocks);
+        //        tickerLoadingTasks.Add(loadTask);
         //    }
+
+        //    var allStocks = await Task.WhenAll(tickerLoadingTasks);
+
+        //    Stocks.ItemsSource = allStocks.SelectMany(stocks => stocks);
+        //}
         #endregion
 
         #region Deadlock hack
@@ -307,7 +307,7 @@ namespace StockAnalyzer.Windows
         //}
 
         #endregion
-            
+
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
