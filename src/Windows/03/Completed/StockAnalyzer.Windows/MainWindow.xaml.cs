@@ -82,7 +82,7 @@ namespace StockAnalyzer.Windows
 
                     tickerLoadingTasks.Add(loadTask);
                 }
-                var timeoutTask = Task.Delay(2000);
+                var timeoutTask = Task.Delay(30000);
 
                 var allStocksLoadingTask = Task.WhenAll(tickerLoadingTasks);
 
@@ -259,7 +259,7 @@ namespace StockAnalyzer.Windows
 
         //            tickerLoadingTasks.Add(loadTask);
         //        }
-        //        var timeoutTask = Task.Delay(2000);
+        //        var timeoutTask = Task.Delay(30000);
 
         //        var allStocksLoadingTask = Task.WhenAll(tickerLoadingTasks);
 
