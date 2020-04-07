@@ -1,0 +1,37 @@
+﻿@model System.Collections.Generic.IEnumerable<StockAnalyzer.Core.Domain.StockPrice>
+
+<h2>Stock prices for @ViewBag.Title</h2>
+
+<p>
+    <strong>Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use.</a></strong>
+</p>
+
+<table width="100%">
+    <thead>
+    <tr>
+        <th>Trade Date</th>
+        <th>Volume</th>
+        <th>Change</th>
+        <th>Change %</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var stockPrice in Model)
+    {
+        <tr>
+            <td>
+                @stockPrice.TradeDate
+            </td>
+            <td>
+                @stockPrice.Volume
+            </td>
+            <td>
+                @stockPrice.Change
+            </td>
+            <td>
+                @stockPrice.ChangePercent
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
