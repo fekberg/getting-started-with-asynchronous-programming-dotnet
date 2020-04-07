@@ -8,6 +8,7 @@ using StockAnalyzer.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -59,6 +60,8 @@ namespace StockAnalyzer.MacOS
 
             var data = JsonConvert.DeserializeObject<IEnumerable<StockPrice>>(content);
 
+            Stocks.Items = data;
+
             #region After stock data is loaded
             StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
             StockProgress.IsVisible = false;
@@ -69,7 +72,7 @@ namespace StockAnalyzer.MacOS
         {
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync($"http://127.0.0.1:61363/api/stocks/{Ticker.Text}");
+                var response = await client.GetAsync($"http://localhost:61363/api/stocks/{Ticker.Text}");
 
                 try
                 {
