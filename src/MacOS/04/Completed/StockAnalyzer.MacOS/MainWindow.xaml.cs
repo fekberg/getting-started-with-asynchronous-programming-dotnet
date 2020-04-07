@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -24,35 +25,16 @@ namespace StockAnalyzer.MacOS
 {
     public partial class MainWindow
     {
-
-        #region Processing a collection of data in parallel
+        #region Asynchronous Streams
         CancellationTokenSource cancellationTokenSource = null;
 
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
-            #region Code to make sure Web API is running
-            // This code is just here to make sure that you have started the web api as well!
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var response = await client.GetAsync("http://localhost:61363");
-                }
-                catch (Exception)
-                {
-                    var alert = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("StockAnalyzer.Web IS NOT RUNNING", "Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.");
-
-                    await alert.Show();
-                }
-            }
-            #endregion
-
             #region Before loading stock data
             var watch = new Stopwatch();
             watch.Start();
             StockProgress.IsVisible = true;
             StockProgress.IsIndeterminate = true;
-
             Search.Content = "Cancel";
             #endregion
 
@@ -65,7 +47,6 @@ namespace StockAnalyzer.MacOS
             }
 
             cancellationTokenSource = new CancellationTokenSource();
-
             cancellationTokenSource.Token.Register(() =>
             {
                 Notes.Text += "Cancellation requested" + Environment.NewLine;
@@ -74,68 +55,25 @@ namespace StockAnalyzer.MacOS
 
             try
             {
-                #region Load One or Many Tickers
-                var tickers = Ticker.Text.Split(',', ' ');
+                var tickers = Ticker.Text.Split(' ');
 
-                var service = new StockService();
+                var prices = new ObservableCollection<StockPrice>();
 
-                var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
-                foreach (var ticker in tickers)
+                Stocks.Items = prices;
+
+                var service = new StockDiskStreamService();
+
+                await foreach (var price in service.GetAllStockPrices(cancellationTokenSource.Token))
                 {
-                    var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
-
-                    tickerLoadingTasks.Add(loadTask);
-                }
-                #endregion
-
-                var loadedStocks = await Task.WhenAll(tickerLoadingTasks);
-
-                var values = new ConcurrentBag<StockCalculation>();
-
-                var executionResult = Parallel.ForEach(loadedStocks,
-                    new ParallelOptions { MaxDegreeOfParallelism = 2 },
-                    (stocks, state) =>
+                    if (tickers.Contains(price.Ticker))
                     {
-                        var ticker = stocks.First().Ticker;
-
-                        Debug.WriteLine($"Start processing {ticker}");
-
-                        if (ticker == "MSFT")
-                        {
-                            Debug.WriteLine($"Found {ticker}, breaking");
-
-                            state.Stop();
-
-                            return;
-                        }
-
-                        if (state.IsStopped) return;
-
-                        var result = CalculateExpensiveComputation(stocks);
-
-                        var data = new StockCalculation
-                        {
-                            Ticker = ticker,
-                            Result = result
-                        };
-
-                        values.Add(data);
-
-                        Debug.WriteLine($"Completed processing {ticker}");
-                    });
-
-                Notes.Text = $"Ran to complation: {executionResult.IsCompleted}" + Environment.NewLine;
-                Notes.Text += $"Lowest break iteration: {executionResult.LowestBreakIteration}";
-
-                Stocks.Items = values.ToArray();
+                        prices.Add(price);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 Notes.Text += ex.Message + Environment.NewLine;
-            }
-            finally
-            {
-                cancellationTokenSource = null;
             }
 
             #region After stock data is loaded
@@ -144,6 +82,128 @@ namespace StockAnalyzer.MacOS
             Search.Content = "Search";
             #endregion
         }
+
+        #endregion
+
+        #region Processing a collection of data in parallel
+        //CancellationTokenSource cancellationTokenSource = null;
+
+        //private async void Search_Click(object sender, RoutedEventArgs e)
+        //{
+        //    #region Code to make sure Web API is running
+        //    // This code is just here to make sure that you have started the web api as well!
+        //    using (var client = new HttpClient())
+        //    {
+        //        try
+        //        {
+        //            var response = await client.GetAsync("http://localhost:61363");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            var alert = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("StockAnalyzer.Web IS NOT RUNNING", "Ensure that StockAnalyzer.Web is running, expecting to be running on http://localhost:61363. You can configure the solution to start two projects by right clicking the StockAnalyzer solution in Visual Studio, select properties and then Mutliuple Startup Projects.");
+
+        //            await alert.Show();
+        //        }
+        //    }
+        //    #endregion
+
+        //    #region Before loading stock data
+        //    var watch = new Stopwatch();
+        //    watch.Start();
+        //    StockProgress.IsVisible = true;
+        //    StockProgress.IsIndeterminate = true;
+
+        //    Search.Content = "Cancel";
+        //    #endregion
+
+        //    #region Cancellation
+        //    if (cancellationTokenSource != null)
+        //    {
+        //        cancellationTokenSource.Cancel();
+        //        cancellationTokenSource = null;
+        //        return;
+        //    }
+
+        //    cancellationTokenSource = new CancellationTokenSource();
+
+        //    cancellationTokenSource.Token.Register(() =>
+        //    {
+        //        Notes.Text += "Cancellation requested" + Environment.NewLine;
+        //    });
+        //    #endregion
+
+        //    try
+        //    {
+        //        #region Load One or Many Tickers
+        //        var tickers = Ticker.Text.Split(',', ' ');
+
+        //        var service = new StockService();
+
+        //        var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
+        //        foreach (var ticker in tickers)
+        //        {
+        //            var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
+
+        //            tickerLoadingTasks.Add(loadTask);
+        //        }
+        //        #endregion
+
+        //        var loadedStocks = await Task.WhenAll(tickerLoadingTasks);
+
+        //        var values = new ConcurrentBag<StockCalculation>();
+
+        //        var executionResult = Parallel.ForEach(loadedStocks,
+        //            new ParallelOptions { MaxDegreeOfParallelism = 2 },
+        //            (stocks, state) =>
+        //            {
+        //                var ticker = stocks.First().Ticker;
+
+        //                Debug.WriteLine($"Start processing {ticker}");
+
+        //                if (ticker == "MSFT")
+        //                {
+        //                    Debug.WriteLine($"Found {ticker}, breaking");
+
+        //                    state.Stop();
+
+        //                    return;
+        //                }
+
+        //                if (state.IsStopped) return;
+
+        //                var result = CalculateExpensiveComputation(stocks);
+
+        //                var data = new StockCalculation
+        //                {
+        //                    Ticker = ticker,
+        //                    Result = result
+        //                };
+
+        //                values.Add(data);
+
+        //                Debug.WriteLine($"Completed processing {ticker}");
+        //            });
+
+        //        Notes.Text = $"Ran to complation: {executionResult.IsCompleted}" + Environment.NewLine;
+        //        Notes.Text += $"Lowest break iteration: {executionResult.LowestBreakIteration}";
+
+        //        Stocks.Items = values.ToArray();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Notes.Text += ex.Message + Environment.NewLine;
+        //    }
+        //    finally
+        //    {
+        //        cancellationTokenSource = null;
+        //    }
+
+        //    #region After stock data is loaded
+        //    StocksStatus.Text = $"Loaded stocks for {Ticker.Text} in {watch.ElapsedMilliseconds}ms";
+        //    StockProgress.IsVisible = false;
+        //    Search.Content = "Search";
+        //    #endregion
+        //}
         #endregion
 
         #region Working with Shared Variables
