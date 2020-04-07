@@ -44,4 +44,6 @@ Select the MacOS and the Web projects as startup projects
 
 ![Create a configuration for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/MacOS_Options_Dialog.png?raw=true "Configure Multiple startup projects Create a Config on MacOS")
 
+Run the projects
+
 ![Run multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/MacOS_Run_Multiple.png?raw=true "Run Multiple startup projects on MacOS")

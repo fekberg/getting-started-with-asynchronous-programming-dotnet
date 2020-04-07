@@ -155,9 +155,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\MultipleStartupProjects.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="CompanyData.csv">
@@ -293,6 +290,10 @@
     <None Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Views\Web.config" />
+    <Content Include="Images\MacOS_Set_Startup.png" />
+    <Content Include="Images\MacOS_Run_Multiple.png" />
+    <Content Include="Images\MacOS_Options_Dialog.png" />
+    <Content Include="Images\MacOS_Create_Configuration.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
