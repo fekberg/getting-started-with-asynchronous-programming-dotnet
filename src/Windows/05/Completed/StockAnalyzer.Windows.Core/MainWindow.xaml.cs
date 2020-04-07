@@ -80,7 +80,6 @@ namespace StockAnalyzer.Windows
             #endregion
         }
 
-
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
