@@ -21,20 +21,27 @@ Inside the Completed folder for each module, you will find that you have code th
 ## Setting up multiple startup projects
 
 ### Windows
-![Setup the visual studio solution for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/vs_run.png?raw=true "Multiple startup projects")
+
+Right click the solution and select "Set Startup Projects..."
+
+![Setup the visual studio solution for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/Windows_Set_Startup.png?raw=true "Multiple startup projects")
+
+Select the Windows and Web projects as startup projects
+
+![Setup the visual studio solution for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/Windows_Options_Dialog.png?raw=true "Multiple startup projects")
 
 ### MacOS
 
 Right click the solution and select "Set Startup Projects..."
 
-![Setup the visual studio for mac solution for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/MacOS_Set_Startup.png?raw=true "Multiple startup projects on MacOS")
+![Setup the visual studio for mac solution for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/MacOS_Set_Startup.png?raw=true "Multiple startup projects on MacOS")
 
 Create the suggested configuration for multiple startup projects
 
-![Create a configuration for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/MacOS_Create_Configuration.png?raw=true "Multiple startup projects Createa Config on MacOS")
+![Create a configuration for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/MacOS_Create_Configuration.png?raw=true "Multiple startup projects Createa Config on MacOS")
 
 Select the MacOS and the Web projects as startup projects
 
-![Create a configuration for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/MacOS_Options_Dialog.png?raw=true "Configure Multiple startup projects Create a Config on MacOS")
+![Create a configuration for multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/MacOS_Options_Dialog.png?raw=true "Configure Multiple startup projects Create a Config on MacOS")
 
-![Run multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/MacOS_Run_Multiple.png?raw=true "Run Multiple startup projects on MacOS")
+![Run multiple startup projects](https://github.com/fekberg/getting-started-with-asynchronous-programming-dotnet/blob/master/images/MacOS_Run_Multiple.png?raw=true "Run Multiple startup projects on MacOS")
