@@ -82,26 +82,17 @@ namespace StockAnalyzer.MacOS
             var service = new StockService();
 
             var tickerLoadingTasks = new List<Task<IEnumerable<StockPrice>>>();
+            
             foreach (var ticker in tickers)
             {
                 var loadTask = service.GetStockPricesFor(ticker, cancellationTokenSource.Token);
 
                 tickerLoadingTasks.Add(loadTask);
             }
-            var timeoutTask = Task.Delay(30000);
+            
+            var allStocks = await Task.WhenAll(tickerLoadingTasks);
 
-            var allStocksLoadingTask = Task.WhenAll(tickerLoadingTasks);
-
-            var completedTask = await Task.WhenAny(timeoutTask, allStocksLoadingTask);
-
-            if (completedTask == timeoutTask)
-            {
-                cancellationTokenSource.Cancel();
-                cancellationTokenSource = null;
-                throw new Exception("Timeout!");
-            }
-
-            Stocks.Items = allStocksLoadingTask.Result.SelectMany(stocks => stocks);
+            Stocks.Items = allStocks.SelectMany(stocks => stocks);
         }
 
         private Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
