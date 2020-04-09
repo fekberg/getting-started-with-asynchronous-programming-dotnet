@@ -156,6 +156,27 @@ namespace StockAnalyzer.MacOS
             return Task.FromResult<IEnumerable<StockPrice>>(null); ;
         }
 
+        Random random = new Random();
+        private decimal CalculateExpensiveComputation(IEnumerable<StockPrice> stocks)
+        {
+            Thread.Yield();
+
+            var computedValue = 0m;
+
+            foreach (var stock in stocks)
+            {
+                for (int i = 0; i < stocks.Count() - 2; i++)
+                {
+                    for (int a = 0; a < random.Next(50, 60); a++)
+                    {
+                        computedValue += stocks.ElementAt(i).Change + stocks.ElementAt(i + 1).Change;
+                    }
+                }
+            }
+
+            return computedValue;
+        }
+
         private void Close_OnClick(object sender, RoutedEventArgs e)
         {
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
