@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -117,6 +118,42 @@ namespace StockAnalyzer.Windows
             }, cancellationToken);
 
             return loadLinesTask;
+        }
+
+        public Task<IEnumerable<StockPrice>> GetStocksFor(string ticker)
+        {        
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    var prices = new List<StockPrice>();
+
+                    var lines = File.ReadAllLines(@"StockPrices_Small.csv");
+
+                    foreach (var line in lines.Skip(1))
+                    {
+                        var segments = line.Split(',');
+
+                        for (var i = 0; i < segments.Length; i++) segments[i] = segments[i].Trim('\'', '"');
+                        var price = new StockPrice
+                        {
+                            Ticker = segments[0],
+                            TradeDate = DateTime.ParseExact(segments[1], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
+                            Volume = Convert.ToInt32(segments[6], CultureInfo.InvariantCulture),
+                            Change = Convert.ToDecimal(segments[7], CultureInfo.InvariantCulture),
+                            ChangePercent = Convert.ToDecimal(segments[8], CultureInfo.InvariantCulture),
+                        };
+                        prices.Add(price);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                }
+            });
+
+            // TODO: Change this
+            return Task.FromResult<IEnumerable<StockPrice>>(null); ;
         }
 
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
