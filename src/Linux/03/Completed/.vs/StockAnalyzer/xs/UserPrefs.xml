@@ -31,10 +31,10 @@
   <MultiItemStartupConfigurations>
     <MultiItemSolutionRunConfiguration Id="Multiple Projects" Name="Multiple Projects">
       <Items>
-        <StartupItem ItemId="{3E5D2119-5AFF-4B75-96F7-D6491C478719}" ItemName="StockAnalyzer.MacOS" ConfigurationId="Default" />
+        <StartupItem ItemId="{3E5D2119-5AFF-4B75-96F7-D6491C478719}" ItemName="StockAnalyzer.Linux" ConfigurationId="Default" />
         <StartupItem ItemId="{06EC389B-57C9-4A20-B3B5-B88BE518D3BC}" ItemName="StockAnalyzer.Web" />
       </Items>
     </MultiItemSolutionRunConfiguration>
   </MultiItemStartupConfigurations>
-  <MonoDevelop.Ide.ItemProperties.StockAnalyzer.MacOS PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.StockAnalyzer.Linux PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

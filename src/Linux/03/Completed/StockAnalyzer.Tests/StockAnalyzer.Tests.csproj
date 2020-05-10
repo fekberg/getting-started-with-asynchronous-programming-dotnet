@@ -14,6 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockAnalyzer.MacOS\StockAnalyzer.MacOS.csproj" />
+    <ProjectReference Include="..\StockAnalyzer.Linux\StockAnalyzer.Linux.csproj" />
   </ItemGroup>
 </Project>

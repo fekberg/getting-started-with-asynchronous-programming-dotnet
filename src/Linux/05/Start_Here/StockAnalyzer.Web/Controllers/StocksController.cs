@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Hosting;
-using System.Web.Http;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using StockAnalyzer.Core;
-using StockAnalyzer.Core.Domain;
 
 namespace StockAnalyzer.Web.Controllers
 {
-    public class StocksController : ApiController
+    public class StocksController : Controller
     {
-        [Route("api/stocks/{ticker}")] 
-        public async Task<IHttpActionResult> Get(string ticker)
+        [Route("api/stocks/{ticker}")]
+        [Produces("application/json")]
+        public async Task<IActionResult> Get(string ticker)
         {
-            var store = new DataStore(HostingEnvironment.MapPath("~/bin"));
+            var store = new DataStore("");
 
             var data = await store.LoadStocks();
 

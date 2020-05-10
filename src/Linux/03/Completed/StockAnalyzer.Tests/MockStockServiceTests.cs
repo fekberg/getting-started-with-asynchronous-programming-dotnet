@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StockAnalyzer.MacOS.Services;
+using StockAnalyzer.Linux.Services;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
