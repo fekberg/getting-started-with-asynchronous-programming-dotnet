@@ -1,0 +1,71 @@
+﻿<div class="jumbotron">
+    <h1>Getting Started with Asynchronous Programming in .NET</h1>
+    <p class="lead">This demo application should be running locally on <strong>http://localhost:61363</strong></p>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Where is the data located?</h2>
+        <p>
+            The demos use two different files:
+            <ul>
+                <li><strong>CompanyData.csv</strong></li>
+                <li><strong>StockPrices_Small.csv</strong></li>
+            </ul>
+            These files may both be used in<strong>StockAnalyzer.Web</strong> as well as <strong>StockAnalyzer.MacOS</strong> depending on the demo you are following.
+        </p>
+        <p>Each project that uses these should have a local copy of these files.</p>
+        <p>The DataStore (<strong>DataStore.cs</strong>) takes the base path to where the files are located as a base path.</p>
+        <p>This is injected from both the Web and the MacOS project where applicable.</p>
+    </div>
+    <div class="col-md-6">
+        <h2>Can I change the port of StockAnalyzer.Web?</h2>
+        <p>
+            Yes! In order to do that, make sure that you change every reference to <strong>localhost:61363</strong>.
+        </p>
+        <p><strong>App.xaml.cs</strong> checks that you have a service running on <strong>localhost:61363</strong>, make sure to point this to the real location you have chosen.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>How do I run the demos?</h2>
+        <p>You should be running both <strong>StockAnalyzer.Web</strong> as well as <strong>StockAnalyzer.MacOS</strong> simultaniously. To set this up you can configure the solution to run multiple startup projects.</p>
+        <p>
+            <ol>
+                <li>Right-click the Solution <strong>StockAnalyzer</strong> select Properties</li>
+                <li>Set both <strong>StockAnalyzer.Web</strong> and <strong>StockAnalyzer.MacOS</strong> to <strong>Start</strong></li>
+            </ol>
+        </p>
+        <div>
+            <h3>
+                Right click the solution and select "Set Startup Projects..."
+            </h3>
+
+            <p>
+                <img src="/Images/MacOS_Set_Startup.png" style="border: 1px solid #808080; width: 300px;" />
+            </p>
+
+            <h3>
+                Create the suggested configuration for multiple startup projects
+            </h3>
+
+            <p>
+                <img src="/Images/MacOS_Create_Configuration.png" style="border: 1px solid #808080; width: 600px;" />
+            </p>
+
+            <h3>
+                Select the MacOS and the Web projects as startup projects
+            </h3>
+
+            <p>
+                <img src="/Images/MacOS_Options_Dialog.png" style="border: 1px solid #808080; width: 600px;" />
+            </p>
+
+            <h3>
+                Run the projects
+            </h3>
+            <p>
+                <img src="/Images/MacOS_Run_Multiple.png" style="border: 1px solid #808080; width: 300px;" />
+            </p>
+        </div>
+    </div>
+</div>

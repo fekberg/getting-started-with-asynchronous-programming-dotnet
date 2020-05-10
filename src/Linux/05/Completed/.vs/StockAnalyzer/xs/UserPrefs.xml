@@ -1,0 +1,37 @@
+﻿<Properties StartupConfiguration="Multiple Projects">
+  <MonoDevelop.Ide.Workbench ActiveDocument="StockAnalyzer.MacOS/Services/StockStreamService.cs">
+    <Files>
+      <File FileName="StockAnalyzer.Web/Views/Home/Index.cshtml" Line="71" Column="7" />
+      <File FileName="StockAnalyzer.MacOS/MainWindow.xaml.cs" Line="65" Column="18" />
+      <File FileName="StockAnalyzer.MacOS/Services/StockStreamService.cs" Line="9" Column="30" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="StockAnalyzer" expanded="True">
+            <Node name="StockAnalyzer.MacOS" expanded="True">
+              <Node name="Services" expanded="True">
+                <Node name="StockStreamService.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.StockAnalyzer.Web PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations>
+    <MultiItemSolutionRunConfiguration Id="Multiple Projects" Name="Multiple Projects">
+      <Items>
+        <StartupItem ItemId="{3E5D2119-5AFF-4B75-96F7-D6491C478719}" ItemName="StockAnalyzer.MacOS" ConfigurationId="Default" />
+        <StartupItem ItemId="{06EC389B-57C9-4A20-B3B5-B88BE518D3BC}" ItemName="StockAnalyzer.Web" />
+      </Items>
+    </MultiItemSolutionRunConfiguration>
+  </MultiItemStartupConfigurations>
+  <MonoDevelop.Ide.ItemProperties.StockAnalyzer.MacOS PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

@@ -1,0 +1,42 @@
+﻿<div class="jumbotron">
+    <h1>Getting Started with Asynchronous Programming in .NET</h1>
+    <p class="lead">This demo application should be running locally using IIS Express on <strong>http://localhost:61363</strong></p>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Where is the data located?</h2>
+        <p>
+            The demos use two different files:
+            <ul>
+                <li><strong>CompanyData.csv</strong></li>
+                <li><strong>StockPrices_Small.csv</strong></li>
+            </ul>
+            These files may both be used in<strong>StockAnalyzer.Web</strong> as well as <strong>StockAnalyzer.Windows</strong> depending on the demo you are following.
+        </p>
+        <p>Each project that uses these should have a local copy of these files.</p>
+        <p>The DataStore (<strong>DataStore.cs</strong>) takes the base path to where the files are located as a base path.</p>
+        <p>This is injected from both the Web and the Windows project where applicable.</p>
+    </div>
+    <div class="col-md-6">
+        <h2>Can I change the port of StockAnalyzer.Web?</h2>
+        <p>
+            Yes! In order to do that, make sure that you change every reference to <strong>localhost:61363</strong>.
+        </p>
+        <p><strong>App.xaml.cs</strong> checks that you have a service running on <strong>localhost:61363</strong>, make sure to point this to the real location you have chosen.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>How do I run the demos?</h2>
+        <p>You should be running both <strong>StockAnalyzer.Web</strong> as well as <strong>StockAnalyzer.Windows</strong> simultaniously. To set this up you can configure the solution to run multiple startup projects.</p>
+        <p>
+            <ol>
+                <li>Right-click the Solution <strong>StockAnalyzer</strong> select Properties</li>
+                <li>Set both <strong>StockAnalyzer.Web</strong> and <strong>StockAnalyzer.Windows</strong> to <strong>Start</strong></li>
+            </ol>
+        </p>
+        <p>
+            <img src="/Images/MultipleStartupProjects.png" style="border: 1px solid #808080" />
+        </p>
+    </div>
+</div>
