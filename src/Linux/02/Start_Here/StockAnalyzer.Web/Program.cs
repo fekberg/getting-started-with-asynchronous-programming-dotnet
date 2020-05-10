@@ -20,6 +20,8 @@ namespace StockAnalyzer.Web
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://*:61363");
+
                     webBuilder.UseStartup<Startup>();
                 });
     }
