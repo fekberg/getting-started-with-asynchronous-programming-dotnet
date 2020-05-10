@@ -1,0 +1,45 @@
+﻿<div class="jumbotron">
+    <h1>Getting Started with Asynchronous Programming in .NET</h1>
+    <p class="lead">This demo application should be running locally on <strong>http://localhost:61363</strong></p>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Where is the data located?</h2>
+        <p>
+            The demos use two different files:
+            <ul>
+                <li><strong>CompanyData.csv</strong></li>
+                <li><strong>StockPrices_Small.csv</strong></li>
+            </ul>
+            These files may both be used in<strong>StockAnalyzer.Web</strong> as well as <strong>StockAnalyzer.Linux</strong> depending on the demo you are following.
+        </p>
+        <p>Each project that uses these should have a local copy of these files.</p>
+        <p>The DataStore (<strong>DataStore.cs</strong>) takes the base path to where the files are located as a base path.</p>
+        <p>This is injected from both the Web and the Linux project where applicable.</p>
+    </div>
+    <div class="col-md-6">
+        <h2>Can I change the port of StockAnalyzer.Web?</h2>
+        <p>
+            Yes! In order to do that, make sure that you change every reference to <strong>localhost:61363</strong>.
+        </p>
+            <p><strong>MainWindow.xaml.cs</strong> checks that you have a service running on <strong>localhost:61363</strong>, make sure to point this to the real location you have chosen.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>How do I run the demos?</h2>
+        <p>You should be running both <strong>StockAnalyzer.Web</strong> as well as <strong>StockAnalyzer.Linux</strong> simultaniously. To do this you can either run it through the command line by using "dotnet run" or start each project seperately in for instance Rider.</p>
+        <div>
+            <ol>
+                <li>
+                    <p>Right-click the project <strong>StockAnalyzer.Web</strong> select Run</p>
+                    <p><img src="/Images/run_web.png" style="border: 1px solid #808080; width: 300px;" /></p>
+                </li>
+                <li>
+                    <p>Right-click the project <strong>StockAnalyzer.Linux</strong> select Run</p>
+                    <p><img src="/Images/run_linux.png" style="border: 1px solid #808080; width: 300px;" /></p>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>

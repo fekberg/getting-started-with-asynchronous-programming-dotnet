@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="CompanyData.csv" />
+    <None Remove="StockPrices_Small.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="CompanyData.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StockPrices_Small.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockAnalyzer.Core\StockAnalyzer.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Content\bootstrap-theme.css" />
+    <None Include="wwwroot\Content\bootstrap-theme.css.map" />
+    <None Include="wwwroot\Content\bootstrap-theme.min.css" />
+    <None Include="wwwroot\Content\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap.css" />
+    <None Include="wwwroot\Content\bootstrap.css.map" />
+    <None Include="wwwroot\Content\bootstrap.min.css" />
+    <None Include="wwwroot\Content\bootstrap.min.css.map" />
+    <None Include="wwwroot\Content\Site.css" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\Scripts\bootstrap.js" />
+    <None Include="wwwroot\Scripts\bootstrap.min.js" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.intellisense.js" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.js" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.min.map" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.slim.js" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="wwwroot\Scripts\jquery-3.3.1.slim.min.map" />
+    <None Include="wwwroot\Scripts\modernizr-2.8.3.js" />
+  </ItemGroup>
+
+
+</Project>
