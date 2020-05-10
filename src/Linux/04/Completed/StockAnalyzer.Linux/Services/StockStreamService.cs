@@ -37,7 +37,7 @@ namespace StockAnalyzer.Linux.Services
         public async IAsyncEnumerable<StockPrice> GetAllStockPrices(CancellationToken cancellationToken = default)
         {
             using var stream =
-                new StreamReader(File.OpenRead(@"StockPrices_small.csv"));
+                new StreamReader(File.OpenRead(@"StockPrices_Small.csv"));
 
             await stream.ReadLineAsync();
 

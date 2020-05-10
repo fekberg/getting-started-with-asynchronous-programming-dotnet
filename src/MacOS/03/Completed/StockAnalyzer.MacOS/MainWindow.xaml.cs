@@ -407,7 +407,7 @@ namespace StockAnalyzer.MacOS
             {
                 var lines = new List<string>();
 
-                using (var stream = new StreamReader(File.OpenRead(@"StockPrices_small.csv")))
+                using (var stream = new StreamReader(File.OpenRead(@"StockPrices_Small.csv")))
                 {
                     string line;
                     while ((line = await stream.ReadLineAsync()) != null)
